@@ -1,5 +1,5 @@
 @extends('admin.template')
-@section('title', 'Tambah Manajemen Role')
+@section('title', 'Edit Manajemen Role')
 
 @section('content')
 <!-- Main content -->
@@ -16,7 +16,8 @@
             </div>
         </div>
         <!-- /.box-header -->
-        <form class="w-full p-10" action="/manajemen-role" method="POST" enctype="multipart/form-data">
+        <form class="w-full p-10" action="/manajemen-role/{{ $user->id }}" method="POST" enctype="multipart/form-data">
+            @method('put')
             @csrf
             <div class="box-body">
                 <div class="row">
@@ -24,7 +25,7 @@
                         <!-- /.form-group -->
                         <div class="form-group">
                             <label>Nama</label>
-                            <input type="text" name="name" required autofocus value="{{ old('name') }}"
+                            <input type="text" name="name" required autofocus value="{{ old('name', $user->name) }}"
                                 class="form-control @error('name') is-invalid @enderror" placeholder="Name">
                             @error('name')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -34,7 +35,7 @@
                         <!-- /.form-group -->
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="text" name="password" required
+                            <input type="text" name="password" required value="{{ old('password', $user->password)}}"
                                 class="form-control @error('password') is-invalid @enderror" placeholder="Password">
                             @error('password')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -47,7 +48,7 @@
                         <!-- /.form-group -->
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" name="username" required
+                            <input type="text" name="username" required value="{{ old('username', $user->username)}}"
                                 class="form-control @error('username') is-invalid @enderror" placeholder="Username">
                             @error('username')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -56,7 +57,7 @@
                         <!-- /.form-group -->
                         <div class="form-group">
                             <label>Konfirmasi Password</label>
-                            <input type="text" name="confirm-password" required
+                            <input type="text" name="confirm-password" required value="{{ old('confirm-password', $user->password)}}"
                                 class="form-control @error('confirm-password') is-invalid @enderror"
                                 placeholder="Konfirmasi Password">
                             @error('confirm-password')
@@ -70,7 +71,7 @@
                         <!-- /.form-group -->
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                            <input type="email" name="email" required value="{{ old('email', $user->email)}}" class="form-control @error('email') is-invalid @enderror"
                                 placeholder="Email">
                             @error('email')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -83,7 +84,7 @@
                             <select name="roles" required
                                 class="form-control select2 @error('roles') is-invalid @enderror" style="width: 100%;">
                                 @foreach ($roles as $key => $roles)
-                                @if ( old('roles') == $roles->id )
+                                @if ( old('roles_id', $roles->id) == $roles->id )
                                 <option value="{{ $roles->id }}" selected>{{ $roles->name }}</option>
                                 @else
                                 <option value="{{ $roles->id }}">{{ $roles->name }}</option>

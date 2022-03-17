@@ -7,7 +7,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <a href="/add-manajemen-role" class="label label-success" style="padding: 6px">Tambah</a>
+                    <a href="/manajemen-role/create" class="label label-success" style="padding: 6px">Tambah</a>
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -23,58 +23,37 @@
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
                         <tr>
-                            <th>ID</th>
-                            <th>User</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Reason</th>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>Username</th>
+                            <th>Role</th>
                             <th>Aksi</th>
                         </tr>
+                        @foreach ($data as $key => $data)
                         <tr>
-                            <td>183</td>
-                            <td>John Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-success">Approved</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{$data->name}}</td>
+                            <td>{{$data->username}}</td>
                             <td>
-                                <i class="fa fa-fw fa-pencil-square-o"></i>
-                                <i class="fa fa-fw fa-trash-o"></i>
+                                @if(!empty($data->getRoleNames()))
+                                @foreach($data->getRoleNames() as $v)
+                                <label>{{ $v }}</label>
+                                @endforeach
+                                @endif</td>
+                            <td>
+                                <a href="/manajemen-role/{{ $data->id }}/edit"><button><i
+                                        class="fa fa-fw fa-pencil-square-o"></i></button>
+                                </a>
+                                <form action="/manajemen-role/{{ $data->id }}" method="post">
+                                    @method('delete')
+                                    @csrf
+                                    <button><i class="fa fa-fw fa-trash-o"></i></button>
+                                </form>
                             </td>
                         </tr>
-                        <tr>
-                            <td>219</td>
-                            <td>Alexander Pierce</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            <td>
-                                <i class="fa fa-fw fa-pencil-square-o"></i>
-                                <i class="fa fa-fw fa-trash-o"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>657</td>
-                            <td>Bob Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-primary">Approved</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            <td>
-                                <i class="fa fa-fw fa-pencil-square-o"></i>
-                                <i class="fa fa-fw fa-trash-o"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>175</td>
-                            <td>Mike Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-danger">Denied</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            <td>
-                                <i class="fa fa-fw fa-pencil-square-o"></i>
-                                <i class="fa fa-fw fa-trash-o"></i>
-                            </td>
-                        </tr>
+                        @endforeach
                     </table>
+                    {{-- {!! $data->links() !!} --}}
                 </div>
                 <!-- /.box-body -->
             </div>

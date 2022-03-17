@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AdminManajemenRoleController;
+use App\Http\Controllers\AdminAnggotaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,26 +21,13 @@ Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
 
-Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard')->middleware('is_admin');
+Route::get('/dashboard', [HomeController::class, 'index'])->middleware('role:admin')->name('dashboard');
 
-// Route::get('/dashboard', function () {
-//     return view('admin.dashboard.index');
-// });
-
-Route::get('/manajemen-role', function () {
-    return view('admin.manajemen-role.index');
-});
-
-Route::get('/add-manajemen-role', function () {
-    return view('admin.manajemen-role.add');
-});
+Route::resource('/manajemen-role', AdminManajemenRoleController::class)->middleware('role:admin');
+Route::resource('/data-anggota', AdminAnggotaController::class)->middleware('role:admin');
 
 Route::get('/jadwal-kegiatan', function () {
     return view('admin.jadwal-kegiatan.index');
-});
-
-Route::get('/data-anggota', function () {
-    return view('admin.data-anggota.index');
 });
 
 Route::get('/aktivasi-kegiatan', function () {

@@ -7,7 +7,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Responsive Hover Table</h3>
+                    <a href="/data-anggota/create" class="label label-success" style="padding: 6px">Tambah</a>
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -24,39 +24,33 @@
                     <table class="table table-hover">
                         <tr>
                             <th>ID</th>
-                            <th>User</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                            <th>Reason</th>
+                            <th>Nama</th>
+                            <th>Pangkat</th>
+                            <th>WRP</th>
+                            <th>Jabatan</th>
+                            <th>Desa</th>
+                            <th>Aksi</th>
                         </tr>
+                        @foreach ($data as $key => $data)
                         <tr>
-                            <td>183</td>
-                            <td>John Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-success">Approved</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{$data->name}}</td>
+                            <td>{{$data->pangkat}}</td>
+                            <td><span class="label label-success">{{$data->wrp}}</span></td>
+                            <td>{{$data->jabatan}}</td>
+                            <td>{{$data->desa}}</td>
+                            <td>
+                                <a href="/data-anggota/{{ $data->id }}/edit"><button><i
+                                            class="fa fa-fw fa-pencil-square-o"></i></button>
+                                </a>
+                                <form action="/data-anggota/{{ $data->id }}" method="post">
+                                    @method('delete')
+                                    @csrf
+                                    <button><i class="fa fa-fw fa-trash-o"></i></button>
+                                </form>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>219</td>
-                            <td>Alexander Pierce</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-warning">Pending</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                        </tr>
-                        <tr>
-                            <td>657</td>
-                            <td>Bob Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-primary">Approved</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                        </tr>
-                        <tr>
-                            <td>175</td>
-                            <td>Mike Doe</td>
-                            <td>11-7-2014</td>
-                            <td><span class="label label-danger">Denied</span></td>
-                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                        </tr>
+                        @endforeach
                     </table>
                 </div>
                 <!-- /.box-body -->

@@ -1,5 +1,5 @@
 @extends('admin.template')
-@section('title', 'Tambah Manajemen Role')
+@section('title', 'Tambah Anggota')
 
 @section('content')
 <!-- Main content -->
@@ -16,7 +16,7 @@
             </div>
         </div>
         <!-- /.box-header -->
-        <form class="w-full p-10" action="/manajemen-role" method="POST" enctype="multipart/form-data">
+        <form class="w-full p-10" action="/data-anggota" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="box-body">
                 <div class="row">
@@ -33,10 +33,10 @@
                         <!-- /.form-group -->
                         <!-- /.form-group -->
                         <div class="form-group">
-                            <label>Password</label>
-                            <input type="text" name="password" required
-                                class="form-control @error('password') is-invalid @enderror" placeholder="Password">
-                            @error('password')
+                            <label>Jabatan</label>
+                            <input type="text" name="jabatan" required value="{{ old('jabatan') }}"
+                                class="form-control @error('jabatan') is-invalid @enderror" placeholder="Jabatan">
+                            @error('jabatan')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
                         </div>
@@ -46,20 +46,20 @@
                     <div class="col-md-4">
                         <!-- /.form-group -->
                         <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" name="username" required
-                                class="form-control @error('username') is-invalid @enderror" placeholder="Username">
-                            @error('username')
+                            <label>Pangkat</label>
+                            <input type="text" name="pangkat" required value="{{ old('pangkat') }}"
+                                class="form-control @error('pangkat') is-invalid @enderror" placeholder="Pangkat">
+                            @error('pangkat')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
                         </div>
                         <!-- /.form-group -->
                         <div class="form-group">
-                            <label>Konfirmasi Password</label>
-                            <input type="text" name="confirm-password" required
-                                class="form-control @error('confirm-password') is-invalid @enderror"
-                                placeholder="Konfirmasi Password">
-                            @error('confirm-password')
+                            <label>Desa</label>
+                            <input type="text" name="desa" required value="{{ old('desa') }}"
+                                class="form-control @error('desa') is-invalid @enderror"
+                                placeholder="Desa">
+                            @error('desa')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
                         </div>
@@ -69,28 +69,10 @@
                     <div class="col-md-4">
                         <!-- /.form-group -->
                         <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                                placeholder="Email">
-                            @error('email')
-                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
-                            @enderror
-                        </div>
-                        <!-- /.form-group -->
-                        <!-- /.form-group -->
-                        <div class="form-group">
-                            <label>Role</label>
-                            <select name="roles" required
-                                class="form-control select2 @error('roles') is-invalid @enderror" style="width: 100%;">
-                                @foreach ($roles as $key => $roles)
-                                @if ( old('roles') == $roles->id )
-                                <option value="{{ $roles->id }}" selected>{{ $roles->name }}</option>
-                                @else
-                                <option value="{{ $roles->id }}">{{ $roles->name }}</option>
-                                @endif
-                                @endforeach
-                            </select>
-                            @error('roles')
+                            <label>WRP</label>
+                            <input type="number" name="wrp" value="{{ old('wrp') }}" class="form-control @error('wrp') is-invalid @enderror"
+                                placeholder="WRP">
+                            @error('wrp')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
                             @enderror
                         </div>
@@ -98,7 +80,7 @@
                 </div>
                 <div class="box-footer">
                     <button type="submit" class="btn btn-info pull-right" style="margin-left: 10px">Tambah</button>
-                    <a href="/manajemen-role" class="btn btn-default pull-right">Batal</a>
+                    <a href="/data-anggota" class="btn btn-default pull-right">Batal</a>
 
                 </div>
             </div>
