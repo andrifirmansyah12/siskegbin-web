@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Anggota;
+use App\Models\Admin;
 
-class AnggotaSeeder extends Seeder
+class AdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,12 +14,11 @@ class AnggotaSeeder extends Seeder
      */
     public function run()
     {
-        Anggota::create([
-            'user_id' => '2',
+        Admin::create([
+            'user_id' => '1',
             'pangkat' => 'Major',
             'nrp' => '123',
             'jabatan' => 'Wadir 4',
-            'desa' => 'Ujung Kulon',
         ]);
     }
 }

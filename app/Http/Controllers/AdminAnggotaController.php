@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anggota;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class AdminAnggotaController extends Controller
 {
@@ -14,7 +17,7 @@ class AdminAnggotaController extends Controller
      */
     public function index()
     {
-        $data = Anggota::orderBy('id','DESC')->paginate(5);
+        $data = Anggota::with('user')->latest()->get();
         return view('admin.data-anggota.index',compact('data'));
     }
 
@@ -38,18 +41,41 @@ class AdminAnggotaController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+            'password' => 'required',
             'pangkat' => 'required',
-            'wrp' => 'required|unique:anggotas',
+            'nrp' => 'required|unique:anggotas',
             'jabatan' => 'required',
             'desa' => 'required'
         ]);
-    
-        $input = $request->all();
-    
-        $user = Anggota::create($input);
-    
-        return redirect('data-anggota')
-                        ->with('success','Anggota created successfully');
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+        $user->assignRole('anggota');
+        $user->save();
+
+        $anggota = new Anggota;
+        $anggota->user_id = $user->id;
+        $anggota->jabatan = $request->jabatan;
+        $anggota->pangkat = $request->pangkat;
+        $anggota->desa = $request->desa;
+        $anggota->nrp = $request->nrp;
+        if($request->file('foto')){
+            $file= $request->file('foto');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('public/profile'), $filename);
+            $anggota['foto']= $filename;
+        }
+        $anggota->save();
+
+        notify()->success("Anggota berhasil ditambahkan.", "Success", "topRight");
+
+        return redirect()->route('anggotas.index');
     }
 
     /**
@@ -60,7 +86,7 @@ class AdminAnggotaController extends Controller
      */
     public function show(Anggota $anggota)
     {
-        //
+        return view('admin.data-anggota.detail',compact('anggota'));
     }
 
     /**
@@ -71,8 +97,8 @@ class AdminAnggotaController extends Controller
      */
     public function edit($id)
     {
-        $anggota = Anggota::find($id);
-    
+        $anggota = Anggota::with('user')->findOrFail($id);;
+
         return view('admin.data-anggota.edit',compact('anggota'));
     }
 
@@ -87,22 +113,48 @@ class AdminAnggotaController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'username' => 'required',
+            'email' => 'required',
+            // 'password' => 'required',
             'pangkat' => 'required',
             'jabatan' => 'required',
             'desa' => 'required'
         ]);
 
-        if ($request->wrp != $anggota = Anggota::find($id)->wrp) {
-           $request['wrp'] = 'required|unique:anggotas';
+        $user = User::findOrFail($request->user_id);
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        if($request->password) {
+            $user->password = Hash::make($request->password);
         }
-    
-        $input = $request->all();
-    
-        $anggota = Anggota::find($id);
-        $anggota->update($input);
-    
-        return redirect('data-anggota')
-                        ->with('success','Anggota updated successfully');
+        $user->assignRole('anggota');
+        $user->update();
+
+        $anggota = Anggota::findOrFail($id);
+        $anggota->user_id = $user->id;
+        $anggota->jabatan = $request->jabatan;
+        $anggota->pangkat = $request->pangkat;
+        $anggota->desa = $request->desa;
+        $anggota->nrp = $request->nrp;
+        if($request->file('foto')){
+            $image_path = public_path("/public/profile/".$anggota->foto);
+            if (File::exists($image_path)) {
+                File::delete($image_path);
+            }
+            $file= $request->file('foto');
+            $filename= date('YmdHi').$file->getClientOriginalName();
+            $file-> move(public_path('public/profile'), $filename);
+            $anggota['foto']= $filename;
+        } else{
+            unset($anggota['foto']);
+        }
+        $anggota->update();
+
+        notify()->success("Anggota berhasil diperbarui.", "Success", "topRight");
+
+        return redirect()->route('anggotas.index');
     }
 
     /**
@@ -113,8 +165,10 @@ class AdminAnggotaController extends Controller
      */
     public function destroy($id)
     {
-        Anggota::find($id)->delete();
-        return redirect('data-Anggota')
-                        ->with('success','Role deleted successfully');
+        Anggota::where('user_id', $id)->delete();
+        User::where('id', $id)->delete();
+
+        notify()->warning("Anggota berhasil dihapus.", "Warning", "topRight");
+        return redirect()->route('anggotas.index');
     }
 }

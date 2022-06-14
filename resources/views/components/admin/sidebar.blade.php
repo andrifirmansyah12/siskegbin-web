@@ -8,8 +8,8 @@
                 <img src="admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <p>Admin</p>
+                <a href="#"><i class="fa fa-circle text-success"></i></a>
             </div>
         </div>
         <!-- search form -->
@@ -37,9 +37,14 @@
                     <i class="fa fa-edit"></i> <span>Manajemen Role</span>
                 </a>
             </li>
-            <li class="{{ Request::is('data-anggota*') ? 'active' : '' }}">
-                <a href="/data-anggota">
+            <li class="{{ Request::is('anggotas*') ? 'active' : '' }}">
+                <a href="/anggotas">
                     <i class="fa fa-laptop"></i> <span>Data Anggota</span>
+                </a>
+            </li>
+            <li class="{{ Request::is('pengajuan-kegiatans*') ? 'active' : '' }}">
+                <a href="/pengajuan-kegiatans">
+                    <i class="fa fa-laptop"></i> <span>Pengajuan Kegiatan</span>
                 </a>
             </li>
             <li class="{{ Request::is('jadwal-kegiatan*') ? 'active' : '' }}">

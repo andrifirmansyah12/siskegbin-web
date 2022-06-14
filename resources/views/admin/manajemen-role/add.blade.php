@@ -34,7 +34,7 @@
                         <!-- /.form-group -->
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="text" name="password" required
+                            <input type="password" name="password" required
                                 class="form-control @error('password') is-invalid @enderror" placeholder="Password">
                             @error('password')
                             <p class="text-red-500 text-xs italic">{{ $message }}</p>
@@ -99,7 +99,6 @@
                 <div class="box-footer">
                     <button type="submit" class="btn btn-info pull-right" style="margin-left: 10px">Tambah</button>
                     <a href="/manajemen-role" class="btn btn-default pull-right">Batal</a>
-
                 </div>
             </div>
         </form>
