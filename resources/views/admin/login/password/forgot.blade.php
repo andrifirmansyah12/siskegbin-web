@@ -188,7 +188,7 @@ body {
 @section('content')
     <div class="wrapper">
         <div class="card">
-            <form method="POST" action="#" id="forgot_form" class="d-flex flex-column">
+            <form method="POST" action="{{ route('forgotPasswordEmail-admin') }}" class="d-flex flex-column">
             @csrf
                 <div class="h3 text-center mt-3" style="color: #16A085"><a href="{{ route('login') }}">ADMIN</a></div>
                 <div class="d-block mt-4">
