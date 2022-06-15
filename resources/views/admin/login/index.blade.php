@@ -188,7 +188,7 @@ body {
 @section('content')
 <div class="wrapper">
         <div class="card">
-            <form method="POST" action="#" id="login_form" class="d-flex flex-column">
+            <form method="POST" action="{{ route('login-admin') }}" class="d-flex flex-column">
             @csrf
                 <div class="h3 text-center mt-3" style="color: #16A085"><a href="{{ route('login') }}">ADMIN</a></div>
                 <div class="d-block mt-4">
@@ -256,38 +256,38 @@ body {
             }
         });
 
-        $("#login_form").submit(function(e) {
-            e.preventDefault();
-            $("#login_btn").val('Silahkan Tunggu...');
-            $("#login_btn").prop('disabled', true);
-            $.ajax({
-                url: '{{ route('login-admin') }}',
-                method: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(res){
-                    if (res.status == 400) {
-                        showError('email', res.messages.email);
-                        showError('password', res.messages.password);
-                        $("#login_btn").val('Masuk');
-                        $("#login_btn").prop('disabled', false);
-                    } else if (res.status == 401) {
-                        // $("#login_alert").html(showMessage('danger', res.messages));
-                        iziToast.warning({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
-                            title: 'Peringatan',
-                            message: res.messages,
-                            position: 'topRight'
-                        });
-                        $("#login_btn").val('Masuk');
-                        $("#login_btn").prop('disabled', false);
-                    } else {
-                        if(res.status == 200) {
-                            window.location = '{{ route('dashboard') }}';
-                        }
-                    }
-                }
-            });
-        });
+        // $("#login_form").submit(function(e) {
+        //     e.preventDefault();
+        //     $("#login_btn").val('Silahkan Tunggu...');
+        //     $("#login_btn").prop('disabled', true);
+        //     $.ajax({
+        //         url: '{{ route('login-admin') }}',
+        //         method: 'POST',
+        //         data: $(this).serialize(),
+        //         dataType: 'json',
+        //         success: function(res){
+        //             if (res.status == 400) {
+        //                 showError('email', res.messages.email);
+        //                 showError('password', res.messages.password);
+        //                 $("#login_btn").val('Masuk');
+        //                 $("#login_btn").prop('disabled', false);
+        //             } else if (res.status == 401) {
+        //                 // $("#login_alert").html(showMessage('danger', res.messages));
+        //                 iziToast.warning({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
+        //                     title: 'Peringatan',
+        //                     message: res.messages,
+        //                     position: 'topRight'
+        //                 });
+        //                 $("#login_btn").val('Masuk');
+        //                 $("#login_btn").prop('disabled', false);
+        //             } else {
+        //                 if(res.status == 200) {
+        //                     window.location = '{{ route('dashboard') }}';
+        //                 }
+        //             }
+        //         }
+        //     });
+        // });
     });
 </script>
 @endsection

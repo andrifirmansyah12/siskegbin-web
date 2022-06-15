@@ -263,45 +263,45 @@ body {
             }
         });
 
-        $("#reset_form").submit(function(e) {
-            e.preventDefault();
-            $("#reset_btn").val('Silahkan Tunggu..');
-            $("#reset_btn").prop('disabled', true);
-            $.ajax({
-                url: '{{ route('resetPassword-admin') }}',
-                method: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(res){
-                    if (res.status == 400) {
-                        showError('npass', res.messages.npass);
-                        showError('cnpass', res.messages.cnpass);
-                        $("#reset_btn").val("Perbarui Password");
-                        $("#reset_btn").prop('disabled', false);
-                    } else if (res.status == 401){
-                        // $("#forgot_alert").html(showMessage('danger', res.messages));
-                        iziToast.warning({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
-                            title: 'Peringatan',
-                            message: res.messages,
-                            position: 'topRight'
-                        });
-                        $("#reset_btn").val("Perbarui Password");
-                        $("#reset_btn").prop('disabled', false);
-                        removeValidationClasses("#reset_form");
-                    } else {
-                        $("#reset_form")[0].reset();
-                        $("#reset_alert").html(showMessage('success', res.success));
-                        iziToast.success({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
-                            title: 'Berhasil',
-                            message: res.messages,
-                            position: 'topRight'
-                        });
-                        $("#reset_btn").val("Perbarui Password");
-                        $("#reset_btn").prop('disabled', false);
-                    }
-                }
-            });
-        });
+        // $("#reset_form").submit(function(e) {
+        //     e.preventDefault();
+        //     $("#reset_btn").val('Silahkan Tunggu..');
+        //     $("#reset_btn").prop('disabled', true);
+        //     $.ajax({
+        //         url: '{{ route('resetPassword-admin') }}',
+        //         method: 'POST',
+        //         data: $(this).serialize(),
+        //         dataType: 'json',
+        //         success: function(res){
+        //             if (res.status == 400) {
+        //                 showError('npass', res.messages.npass);
+        //                 showError('cnpass', res.messages.cnpass);
+        //                 $("#reset_btn").val("Perbarui Password");
+        //                 $("#reset_btn").prop('disabled', false);
+        //             } else if (res.status == 401){
+        //                 // $("#forgot_alert").html(showMessage('danger', res.messages));
+        //                 iziToast.warning({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
+        //                     title: 'Peringatan',
+        //                     message: res.messages,
+        //                     position: 'topRight'
+        //                 });
+        //                 $("#reset_btn").val("Perbarui Password");
+        //                 $("#reset_btn").prop('disabled', false);
+        //                 removeValidationClasses("#reset_form");
+        //             } else {
+        //                 $("#reset_form")[0].reset();
+        //                 $("#reset_alert").html(showMessage('success', res.success));
+        //                 iziToast.success({ //tampilkan iziToast dengan notif data berhasil disimpan pada posisi kanan bawah
+        //                     title: 'Berhasil',
+        //                     message: res.messages,
+        //                     position: 'topRight'
+        //                 });
+        //                 $("#reset_btn").val("Perbarui Password");
+        //                 $("#reset_btn").prop('disabled', false);
+        //             }
+        //         }
+        //     });
+        // });
     });
 
 </script>

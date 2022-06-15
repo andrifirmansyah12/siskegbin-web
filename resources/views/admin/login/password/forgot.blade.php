@@ -219,7 +219,7 @@ body {
 <!-- AKHIR LIBARARY JS -->
 
 <!-- JAVASCRIPT -->
-<script>
+{{-- <script>
     $(function() {
         $("#forgot_form").submit(function(e) {
             e.preventDefault();
@@ -255,5 +255,5 @@ body {
             });
         });
     });
-</script>
+</script> --}}
 @endsection
